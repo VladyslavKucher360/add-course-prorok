@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/add-course-prorok/static/css/main.053fc383.css",
+    "main.js": "/add-course-prorok/static/js/main.9d91ecdb.js",
+    "static/js/453.d29cfec3.chunk.js": "/add-course-prorok/static/js/453.d29cfec3.chunk.js",
+    "index.html": "/add-course-prorok/index.html",
+    "main.053fc383.css.map": "/add-course-prorok/static/css/main.053fc383.css.map",
+    "main.9d91ecdb.js.map": "/add-course-prorok/static/js/main.9d91ecdb.js.map",
+    "453.d29cfec3.chunk.js.map": "/add-course-prorok/static/js/453.d29cfec3.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.053fc383.css",
+    "static/js/main.9d91ecdb.js"
+  ]
+}
