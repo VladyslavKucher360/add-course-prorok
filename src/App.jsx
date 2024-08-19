@@ -1,5 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import './App.css';
+import { RxCross2 } from "react-icons/rx";
 
 const courseObject = {
   id: 0,
@@ -75,6 +76,7 @@ const courseObject = {
   ],
   benefitsOfCourse: "",
   trainingTopics: "",
+  skillsDeveloped: "",
   startDate: "2024-08-11T20:39:59.577Z",
   groupSize: [
     {
@@ -90,6 +92,7 @@ const courseObject = {
       name: "Large"
     }
   ],
+  place: "",
   softSkills: [
     {
       id: 1,
@@ -136,20 +139,10 @@ const courseObject = {
   imageId: 0
 };
 
-const categoriesFromApi = {
-  contentCategory: {},
-  formOfKnowledge: {},
-  groupSize: {},
-  levelOfAdvancement: {},
-  softSkills: {},
-  targetGroup: {},
-  trainingMode: {},
-  typeOfContent: {},
-};
-
 const App = () => {
   const [course, setCourse] = useState(courseObject);
   const [tokenToAdd, setTokenToAdd] = useState('');
+  const [popUp, setPopUp] = useState(false);
 
   const updateCourseWithApiCategories = (catFromApi) => {
     const mapApiCategories = (apiCategory) => {
@@ -190,7 +183,6 @@ const App = () => {
   };
 
   const handleCheckboxChange = (e, key, item) => {
-    const { checked } = e.target;
     const updatedList = course[key].map((i) =>
       i.id === item.id ? { ...i, checked: !i.checked } : i
     );
@@ -215,6 +207,10 @@ const App = () => {
       </div>
     ));
   };
+
+  const handlePopUp = () => {
+    setPopUp(!popUp);
+  }
 
   async function getAllCategories() {
     const url = 'https://api.prorokszkoleniowy.pl/get-all-categories';
@@ -243,7 +239,6 @@ const App = () => {
 
   async function updateCourse() {
     const url = 'https://api.prorokszkoleniowy.pl/add-course';
-  
     try {
       const response = await fetch(url, {
         method: 'PATCH',
@@ -254,13 +249,14 @@ const App = () => {
         },
         body: JSON.stringify(course),
       });
-  
+
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
-  
+
       const data = await response.json();
       console.log('Course updated successfully:', data);
+      handlePopUp();
       return data;
     } catch (error) {
       console.error('Error updating course:', error);
@@ -285,17 +281,17 @@ const App = () => {
       <form onSubmit={handleSubmit}>
         <div className='bg-lightBeige p-2 w-max flex gap-4 mb-2 border-2 rounded border-bronze flex-wrap max-w-[1000px]'>
           <label className='font-semibold text-xl'>name</label>
-          <input className='p-1' type="text" name="name" value={course.name} onChange={handleChange} />
+          <input className='p-1 border border-lightBeige focus:outline-none focus:border focus:border-bronze' type="text" name="name" value={course.name} onChange={handleChange} />
         </div>
 
         <div className='bg-lightBeige p-2 w-max flex gap-4 mb-2 border-2 rounded border-bronze flex-wrap max-w-[1000px]'>
           <label className='font-semibold text-xl'>siteLink</label>
-          <input className='p-1' type="text" name="siteLink" value={course.siteLink} onChange={handleChange} />
+          <input className='p-1 border border-lightBeige focus:outline-none focus:border focus:border-bronze' type="text" name="siteLink" value={course.siteLink} onChange={handleChange} />
         </div>
 
         <div className='bg-lightBeige p-2 w-max flex gap-4 mb-2 border-2 rounded border-bronze flex-wrap max-w-[1000px]'>
           <label className='font-semibold text-xl'>courseLink</label>
-          <input className='p-1' type="text" name="courseLink" value={course.courseLink} onChange={handleChange} />
+          <input className='p-1 border border-lightBeige focus:outline-none focus:border focus:border-bronze' type="text" name="courseLink" value={course.courseLink} onChange={handleChange} />
         </div>
 
         <div className='bg-lightBeige p-2 w-max flex gap-4 mb-2 border-2 rounded border-bronze flex-wrap max-w-[1000px]'>
@@ -310,37 +306,37 @@ const App = () => {
 
         <div className='bg-lightBeige p-2 w-max flex gap-4 mb-2 border-2 rounded border-bronze flex-wrap max-w-[1000px]'>
           <label className='font-semibold text-xl'>creationDate</label>
-          <input className='p-1' type="datetime-local" name="creationDate" value={course.creationDate} onChange={handleChange} />
+          <input className='p-1 border border-lightBeige focus:outline-none focus:border focus:border-bronze' type="datetime-local" name="creationDate" value={course.creationDate} onChange={handleChange} />
         </div>
 
         <div className='bg-lightBeige p-2 w-max flex gap-4 mb-2 border-2 rounded border-bronze flex-wrap max-w-[1000px]'>
           <label className='font-semibold text-xl'>creatorsContact</label>
-          <input className='p-1' type="text" name="creatorsContact" value={course.creatorsContact} onChange={handleChange} />
+          <input className='p-1 border border-lightBeige focus:outline-none focus:border focus:border-bronze' type="text" name="creatorsContact" value={course.creatorsContact} onChange={handleChange} />
         </div>
 
         <div className='bg-lightBeige p-2 w-max flex gap-4 mb-2 border-2 rounded border-bronze flex-wrap max-w-[1000px]'>
           <label className='font-semibold text-xl'>minPrice</label>
-          <input className='p-1' type="number" name="minPrice" value={course.minPrice} onChange={handleChange} />
+          <input className='p-1 border border-lightBeige focus:outline-none focus:border focus:border-bronze' type="number" name="minPrice" value={course.minPrice} onChange={handleChange} />
         </div>
 
         <div className='bg-lightBeige p-2 w-max flex gap-4 mb-2 border-2 rounded border-bronze flex-wrap max-w-[1000px]'>
           <label className='font-semibold text-xl'>maxPrice</label>
-          <input className='p-1' type="number" name="maxPrice" value={course.maxPrice} onChange={handleChange} />
+          <input className='p-1 border border-lightBeige focus:outline-none focus:border focus:border-bronze' type="number" name="maxPrice" value={course.maxPrice} onChange={handleChange} />
         </div>
 
         <div className='bg-lightBeige p-2 w-max flex gap-4 mb-2 border-2 rounded border-bronze flex-wrap max-w-[1000px]'>
           <label className='font-semibold text-xl'>ratingOnGoogle</label>
-          <input className='p-1' type="number" name="ratingOnGoogle" value={course.ratingOnGoogle} onChange={handleChange} />
+          <input className='p-1 border border-lightBeige focus:outline-none focus:border focus:border-bronze' type="number" name="ratingOnGoogle" value={course.ratingOnGoogle} onChange={handleChange} />
         </div>
 
         <div className='bg-lightBeige p-2 w-max flex gap-4 mb-2 border-2 rounded border-bronze flex-wrap max-w-[1000px]'>
           <label className='font-semibold text-xl'>marketingDescription</label>
-          <textarea className='p-1' name="marketingDescription" value={course.marketingDescription} onChange={handleChange} />
+          <textarea className='p-1 border border-lightBeige focus:outline-none focus:border focus:border-bronze' name="marketingDescription" value={course.marketingDescription} onChange={handleChange} />
         </div>
 
         <div className='bg-lightBeige p-2 w-max flex gap-4 mb-2 border-2 rounded border-bronze flex-wrap max-w-[1000px]'>
           <label className='font-semibold text-xl'>forAIDescription</label>
-          <textarea className='p-1' name="forAIDescription" value={course.forAIDescription} onChange={handleChange} />
+          <textarea className='p-1 border border-lightBeige focus:outline-none focus:border focus:border-bronze' name="forAIDescription" value={course.forAIDescription} onChange={handleChange} />
         </div>
 
         <div className='bg-lightBeige p-2 w-max flex gap-4 mb-2 border-2 rounded border-bronze flex-wrap max-w-[1000px]'>
@@ -355,22 +351,32 @@ const App = () => {
 
         <div className='bg-lightBeige p-2 w-max flex gap-4 mb-2 border-2 rounded border-bronze flex-wrap max-w-[1000px]'>
           <label className='font-semibold text-xl'>benefitsOfCourse</label>
-          <textarea className='p-1' name="benefitsOfCourse" value={course.benefitsOfCourse} onChange={handleChange} />
+          <textarea className='p-1 border border-lightBeige focus:outline-none focus:border focus:border-bronze' name="benefitsOfCourse" value={course.benefitsOfCourse} onChange={handleChange} />
         </div>
 
         <div className='bg-lightBeige p-2 w-max flex gap-4 mb-2 border-2 rounded border-bronze flex-wrap max-w-[1000px]'>
           <label className='font-semibold text-xl'>trainingTopics</label>
-          <textarea className='p-1' name="trainingTopics" value={course.trainingTopics} onChange={handleChange} />
+          <textarea className='p-1 border border-lightBeige focus:outline-none focus:border focus:border-bronze' name="trainingTopics" value={course.trainingTopics} onChange={handleChange} />
+        </div>
+
+        <div className='bg-lightBeige p-2 w-max flex gap-4 mb-2 border-2 rounded border-bronze flex-wrap max-w-[1000px]'>
+          <label className='font-semibold text-xl'>skillsDeveloped</label>
+          <textarea className='p-1 border border-lightBeige focus:outline-none focus:border focus:border-bronze' name="trainingTopics" value={course.skillsDeveloped} onChange={handleChange} />
         </div>
 
         <div className='bg-lightBeige p-2 w-max flex gap-4 mb-2 border-2 rounded border-bronze flex-wrap max-w-[1000px]'>
           <label className='font-semibold text-xl'>startDate</label>
-          <input className='p-1' type="datetime-local" name="startDate" value={course.startDate} onChange={handleChange} />
+          <input className='p-1 border border-lightBeige focus:outline-none focus:border focus:border-bronze' type="datetime-local" name="startDate" value={course.startDate} onChange={handleChange} />
         </div>
 
         <div className='bg-lightBeige p-2 w-max flex gap-4 mb-2 border-2 rounded border-bronze flex-wrap max-w-[1000px]'>
           <label className='font-semibold text-xl'>groupSize</label>
           {renderCheckboxList('groupSize', course.groupSize)}
+        </div>
+
+        <div className='bg-lightBeige p-2 w-max flex gap-4 mb-2 border-2 rounded border-bronze flex-wrap max-w-[1000px]'>
+          <label className='font-semibold text-xl '>place</label>
+          <input className='p-1 border border-lightBeige focus:outline-none focus:border focus:border-bronze' type="string" name="startDate" value={course.place} onChange={handleChange} />
         </div>
 
         <div className='bg-lightBeige p-2 w-max flex gap-4 mb-2 border-2 rounded border-bronze flex-wrap max-w-[1000px]'>
@@ -385,7 +391,7 @@ const App = () => {
 
         <div className='bg-lightBeige p-2 w-max flex gap-4 mb-2 border-2 rounded border-bronze flex-wrap max-w-[1000px]'>
           <label className='font-semibold text-xl'>becomeAfterTraining</label>
-          <textarea className='p-1' name="becomeAfterTraining" value={course.becomeAfterTraining} onChange={handleChange} />
+          <textarea className='p-1 border border-lightBeige focus:outline-none focus:border focus:border-bronze' name="becomeAfterTraining" value={course.becomeAfterTraining} onChange={handleChange} />
         </div>
 
         <div className='bg-lightBeige p-2 w-max flex gap-4 mb-2 border-2 rounded border-bronze flex-wrap max-w-[1000px]'>
@@ -395,11 +401,64 @@ const App = () => {
 
         <div className='bg-lightBeige p-2 w-max flex gap-4 mb-2 border-2 rounded border-bronze flex-wrap max-w-[1000px]'>
           <label className='font-semibold text-xl'>imageId</label>
-          <input className='p-1' type="number" name="imageId" value={course.imageId} onChange={handleChange} />
+          <input className='p-1 border border-lightBeige focus:outline-none focus:border focus:border-bronze' type="number" name="imageId" value={course.imageId} onChange={handleChange} />
         </div>
 
         <button className='bg-bronze py-2 px-4 rounded text-white' type="submit" onClick={() => updateCourse()}>Submit</button>
       </form>
+      {popUp && (
+        <div className='fixed top-0 left-0 w-[100vw] h-[100vh] bg-[#f5e6cf55] backdrop-blur-sm flex items-center justify-center z-30'>
+          <div className='bg-white p-6 rounded-lg w-[60vw] h-max shadow-2xl'>
+            <div className='w-full border-b border-lightBeige flex justify-end'>
+              <RxCross2
+                className='w-5 h-5 cursor-pointer mb-2'
+                onClick={() => handlePopUp()}
+              />
+            </div>
+
+            <div className='text-xl font-semibold'>
+              <h1>Course was added.</h1>
+              <h1>Below you can check a course object.</h1>
+              <h1>In console log you can check responce data.</h1>
+            </div>
+
+            <div className="h-[70vh] overflow-y-auto border-2 border-bronze p-2 mt-2">
+              {Object.entries(course).map(([key, value]) => (
+                <div key={key} className="mb-2">
+                  <strong className="capitalize">{key}:</strong>
+                  <div className="pl-2">
+                    {Array.isArray(value) ? (
+                      value.map((item, index) => (
+                        <div key={index}>
+                          {typeof item === 'object' ? (
+                            <div>
+                              {Object.entries(item).map(([subKey, subValue]) => (
+                                <div key={subKey}>
+                                  <span className="capitalize">{subKey}:</span> {subValue}
+                                </div>
+                              ))}
+                            </div>
+                          ) : (
+                            item.toString()
+                          )}
+                        </div>
+                      ))
+                    ) : (
+                      value.toString()
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div className='w-full flex justify-end'>
+              <div className='py-1 px-4 bg-bronze text-white rounded cursor-pointer mt-2'>
+                Close
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
