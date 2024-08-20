@@ -136,7 +136,8 @@ const courseObject = {
       name: "Advanced"
     }
   ],
-  imageId: 0
+  imageId: 0,
+  logInCourseLink: "",
 };
 
 const App = () => {
@@ -361,7 +362,7 @@ const App = () => {
 
         <div className='bg-lightBeige p-2 w-max flex gap-4 mb-2 border-2 rounded border-bronze flex-wrap max-w-[1000px]'>
           <label className='font-semibold text-xl'>skillsDeveloped</label>
-          <textarea className='p-1 border border-lightBeige focus:outline-none focus:border focus:border-bronze' name="trainingTopics" value={course.skillsDeveloped} onChange={handleChange} />
+          <textarea className='p-1 border border-lightBeige focus:outline-none focus:border focus:border-bronze' name="skillsDeveloped" value={course.skillsDeveloped} onChange={handleChange} />
         </div>
 
         <div className='bg-lightBeige p-2 w-max flex gap-4 mb-2 border-2 rounded border-bronze flex-wrap max-w-[1000px]'>
@@ -376,7 +377,7 @@ const App = () => {
 
         <div className='bg-lightBeige p-2 w-max flex gap-4 mb-2 border-2 rounded border-bronze flex-wrap max-w-[1000px]'>
           <label className='font-semibold text-xl '>place</label>
-          <input className='p-1 border border-lightBeige focus:outline-none focus:border focus:border-bronze' type="string" name="startDate" value={course.place} onChange={handleChange} />
+          <input className='p-1 border border-lightBeige focus:outline-none focus:border focus:border-bronze' type="string" name="place" value={course.place} onChange={handleChange} />
         </div>
 
         <div className='bg-lightBeige p-2 w-max flex gap-4 mb-2 border-2 rounded border-bronze flex-wrap max-w-[1000px]'>
@@ -402,6 +403,11 @@ const App = () => {
         <div className='bg-lightBeige p-2 w-max flex gap-4 mb-2 border-2 rounded border-bronze flex-wrap max-w-[1000px]'>
           <label className='font-semibold text-xl'>imageId</label>
           <input className='p-1 border border-lightBeige focus:outline-none focus:border focus:border-bronze' type="number" name="imageId" value={course.imageId} onChange={handleChange} />
+        </div>
+
+        <div className='bg-lightBeige p-2 w-max flex gap-4 mb-2 border-2 rounded border-bronze flex-wrap max-w-[1000px]'>
+          <label className='font-semibold text-xl'>logInCourseLink</label>
+          <input className='p-1 border border-lightBeige focus:outline-none focus:border focus:border-bronze' type="string" name="logInCourseLink" value={course.logInCourseLink} onChange={handleChange} />
         </div>
 
         <button className='bg-bronze py-2 px-4 rounded text-white' type="submit" onClick={() => updateCourse()}>Submit</button>
