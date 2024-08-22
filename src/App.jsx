@@ -10,32 +10,16 @@ const courseObject = {
   typeOfContentList: [
     {
       id: 1,
-      name: "Video"
-    },
-    {
-      id: 2,
-      name: "Article"
-    },
-    {
-      id: 3,
-      name: "Interactive"
+      name: ""
     },
   ],
   targetGroupList: [
     {
       id: 1,
-      name: "Beginners"
+      name: ""
     },
-    {
-      id: 2,
-      name: "Intermediates"
-    },
-    {
-      id: 3,
-      name: "Advanced"
-    }
   ],
-  creationDate: "2024-08-11T20:39:59.577Z",
+  creationDate: "",
   creatorsContact: "",
   minPrice: 0,
   maxPrice: 0,
@@ -44,97 +28,45 @@ const courseObject = {
   forAIDescription: "",
   trainingMode: [
     {
-      id: 3,
-      name: "ProduktFizyczny"
-    },
-    {
-      id: 2,
-      name: "asdasd"
-    },
-    {
       id: 1,
-      name: "gdsasgs"
-    },
-    {
-      id: 4,
-      name: "maksmhyb"
+      name: ""
     },
   ],
   contentCategory: [
     {
       id: 1,
-      name: "Programming"
+      name: ""
     },
-    {
-      id: 2,
-      name: "Design"
-    },
-    {
-      id: 3,
-      name: "Marketing"
-    }
   ],
   benefitsOfCourse: "",
   trainingTopics: "",
   skillsDeveloped: "",
-  startDate: "2024-08-11T20:39:59.577Z",
+  startDate: "",
   groupSize: [
     {
       id: 1,
-      name: "Small"
+      name: ""
     },
-    {
-      id: 2,
-      name: "Medium"
-    },
-    {
-      id: 3,
-      name: "Large"
-    }
   ],
   place: "",
   softSkills: [
     {
       id: 1,
-      name: "Communication"
+      name: ""
     },
-    {
-      id: 2,
-      name: "Teamwork"
-    },
-    {
-      id: 3,
-      name: "Problem Solving"
-    }
   ],
   formOfKnowledge: [
     {
       id: 1,
-      name: "Lecture"
+      name: ""
     },
-    {
-      id: 2,
-      name: "Hands-on"
-    },
-    {
-      id: 3,
-      name: "Self-study"
-    }
   ],
   becomeAfterTraining: "",
   levelOfAdvancement: [
     {
       id: 1,
-      name: "Beginner"
+      name: ""
     },
-    {
-      id: 2,
-      name: "Intermediate"
-    },
-    {
-      id: 3,
-      name: "Advanced"
-    }
   ],
   imageId: 0,
   logInCourseLink: "",
@@ -144,6 +76,34 @@ const App = () => {
   const [course, setCourse] = useState(courseObject);
   const [tokenToAdd, setTokenToAdd] = useState('');
   const [popUp, setPopUp] = useState(false);
+  const [checkBoxes, setCheckBoxes] = useState({
+    contentCategory: [],
+    formOfKnowledge: [],
+    groupSize: [],
+    levelOfAdvancement: [],
+    softSkills: [],
+    targetGroupList: [],
+    typeOfContentList: [],
+    trainingMode: [],
+  });
+
+  const handleCheckBoxes = (key, val) => {
+    setCheckBoxes(prevState => {
+      const currentList = [...prevState[key]];
+      const index = currentList.findIndex(item => item.id === val.id && item.name === val.name);
+
+      if (index !== -1) {
+        currentList.splice(index, 1);
+      } else {
+        currentList.push(val);
+      }
+
+      return {
+        ...prevState,
+        [key]: currentList,
+      };
+    });
+  };
 
   const updateCourseWithApiCategories = (catFromApi) => {
     const mapApiCategories = (apiCategory) => {
@@ -192,6 +152,7 @@ const App = () => {
       ...course,
       [key]: updatedList
     });
+    handleCheckBoxes(key, item);
   };
 
   const renderCheckboxList = (key, list) => {
@@ -211,6 +172,8 @@ const App = () => {
 
   const handlePopUp = () => {
     setPopUp(!popUp);
+    setCourse(courseObject);
+    getAllCategories();
   }
 
   async function getAllCategories() {
@@ -240,15 +203,27 @@ const App = () => {
 
   async function updateCourse() {
     const url = 'https://api.prorokszkoleniowy.pl/add-course';
+    const updatedCourse = {
+      ...course,
+      contentCategory: checkBoxes.contentCategory,
+      formOfKnowledge: checkBoxes.formOfKnowledge,
+      groupSize: checkBoxes.groupSize,
+      levelOfAdvancement: checkBoxes.levelOfAdvancement,
+      softSkills: checkBoxes.softSkills,
+      targetGroupList: checkBoxes.targetGroupList,
+      typeOfContentList: checkBoxes.typeOfContentList,
+      trainingMode: checkBoxes.trainingMode,
+    };
+
     try {
       const response = await fetch(url, {
-        method: 'PATCH',
+        method: 'POST',
         headers: {
           'accept': '*/*',
           'Authorization': `Bearer ${tokenToAdd}`,
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(course),
+        body: JSON.stringify(updatedCourse),
       });
 
       if (!response.ok) {
@@ -307,7 +282,7 @@ const App = () => {
 
         <div className='bg-lightBeige p-2 w-max flex gap-4 mb-2 border-2 rounded border-bronze flex-wrap max-w-[1000px]'>
           <label className='font-semibold text-xl'>creationDate</label>
-          <input className='p-1 border border-lightBeige focus:outline-none focus:border focus:border-bronze' type="datetime-local" name="creationDate" value={course.creationDate} onChange={handleChange} />
+          <input className='p-1 border border-lightBeige focus:outline-none focus:border focus:border-bronze' type="string" name="creationDate" value={course.creationDate} onChange={handleChange} />
         </div>
 
         <div className='bg-lightBeige p-2 w-max flex gap-4 mb-2 border-2 rounded border-bronze flex-wrap max-w-[1000px]'>
@@ -367,7 +342,7 @@ const App = () => {
 
         <div className='bg-lightBeige p-2 w-max flex gap-4 mb-2 border-2 rounded border-bronze flex-wrap max-w-[1000px]'>
           <label className='font-semibold text-xl'>startDate</label>
-          <input className='p-1 border border-lightBeige focus:outline-none focus:border focus:border-bronze' type="datetime-local" name="startDate" value={course.startDate} onChange={handleChange} />
+          <input className='p-1 border border-lightBeige focus:outline-none focus:border focus:border-bronze' type="string" name="startDate" value={course.startDate} onChange={handleChange} />
         </div>
 
         <div className='bg-lightBeige p-2 w-max flex gap-4 mb-2 border-2 rounded border-bronze flex-wrap max-w-[1000px]'>
@@ -424,41 +399,13 @@ const App = () => {
 
             <div className='text-xl font-semibold'>
               <h1>Course was added.</h1>
-              <h1>Below you can check a course object.</h1>
               <h1>In console log you can check responce data.</h1>
             </div>
 
-            <div className="h-[70vh] overflow-y-auto border-2 border-bronze p-2 mt-2">
-              {Object.entries(course).map(([key, value]) => (
-                <div key={key} className="mb-2">
-                  <strong className="capitalize">{key}:</strong>
-                  <div className="pl-2">
-                    {Array.isArray(value) ? (
-                      value.map((item, index) => (
-                        <div key={index}>
-                          {typeof item === 'object' ? (
-                            <div>
-                              {Object.entries(item).map(([subKey, subValue]) => (
-                                <div key={subKey}>
-                                  <span className="capitalize">{subKey}:</span> {subValue}
-                                </div>
-                              ))}
-                            </div>
-                          ) : (
-                            item.toString()
-                          )}
-                        </div>
-                      ))
-                    ) : (
-                      value.toString()
-                    )}
-                  </div>
-                </div>
-              ))}
-            </div>
-
             <div className='w-full flex justify-end'>
-              <div className='py-1 px-4 bg-bronze text-white rounded cursor-pointer mt-2'>
+              <div
+                onClick={() => handlePopUp()}
+                className='py-1 px-4 bg-bronze text-white rounded cursor-pointer mt-2'>
                 Close
               </div>
             </div>
