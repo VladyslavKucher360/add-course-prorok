@@ -202,7 +202,7 @@ const App = () => {
   }
 
   async function updateCourse() {
-    const url = 'https://api.prorokszkoleniowy.pl/add-course';
+    const url = 'https://api-prod.prorokszkoleniowy.pl/add-course';
     const updatedCourse = {
       ...course,
       contentCategory: checkBoxes.contentCategory,
