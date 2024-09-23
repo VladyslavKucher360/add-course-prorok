@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/add-course-prorok/static/css/main.382b2366.css",
-    "main.js": "/add-course-prorok/static/js/main.84adc3fe.js",
+    "main.js": "/add-course-prorok/static/js/main.b1a2bbd3.js",
     "static/js/453.d29cfec3.chunk.js": "/add-course-prorok/static/js/453.d29cfec3.chunk.js",
     "index.html": "/add-course-prorok/index.html",
     "main.382b2366.css.map": "/add-course-prorok/static/css/main.382b2366.css.map",
-    "main.84adc3fe.js.map": "/add-course-prorok/static/js/main.84adc3fe.js.map",
+    "main.b1a2bbd3.js.map": "/add-course-prorok/static/js/main.b1a2bbd3.js.map",
     "453.d29cfec3.chunk.js.map": "/add-course-prorok/static/js/453.d29cfec3.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.382b2366.css",
-    "static/js/main.84adc3fe.js"
+    "static/js/main.b1a2bbd3.js"
   ]
 }
