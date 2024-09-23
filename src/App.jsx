@@ -177,7 +177,7 @@ const App = () => {
   }
 
   async function getAllCategories() {
-    const url = 'https://api.prorokszkoleniowy.pl/get-all-categories';
+    const url = 'https://api-prod.prorokszkoleniowy.pl/get-all-categories';
 
     try {
       const response = await fetch(url, {
